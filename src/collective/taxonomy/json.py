@@ -70,9 +70,17 @@ class Json(TreeExport, BrowserView):
             self.taxonomy.data[language][key] = value
 
     def generateJson(self, root):
+        # XXX: Support multiple languages
+        language = (self.taxonomy.default_language or '').split('-')[0]
+
         item = {}
         item['key'] = root.find('termIdentifier').text
-        item['title'] = root.find('caption').find('langstring').text
+        for langstring in root.find('caption').findall('langstring'):
+            if not 'title' in item:
+                item['title'] = langstring.text
+            elif langstring.attrib.get('language') == language:
+                item['title'] = langstring.text
+                break
         item['isFolder'] = True
         item['children'] = []
 
