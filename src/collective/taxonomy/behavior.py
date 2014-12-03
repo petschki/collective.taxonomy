@@ -157,7 +157,7 @@ class TaxonomyBehavior(Persistent):
             )
 
         schemaclass = SchemaClass(
-            self.short_name, (Schema, ),
+            self.short_name, (Schema,),
             __module__='collective.taxonomy.generated',
             attrs={
                 str(self.field_name): select_field
@@ -178,12 +178,12 @@ class TaxonomyBehavior(Persistent):
                       fields=[self.field_name])]
         )
 
-        if hasattr(self, 'is_single_select') and not self.is_single_select:
-            schemaclass.setTaggedValue(
-                WIDGETS_KEY,
-                {self.field_name:
-                 'collective.taxonomy.widget.TaxonomySelectFieldWidget'}
-            )
+        # if hasattr(self, 'is_single_select') and not self.is_single_select:
+        #    schemaclass.setTaggedValue(
+        #        WIDGETS_KEY,
+        #        {self.field_name:
+        #         'collective.taxonomy.widget.TaxonomySelectFieldWidget'}
+        #    )
 
         alsoProvides(schemaclass, IFormFieldProvider)
         return schemaclass
